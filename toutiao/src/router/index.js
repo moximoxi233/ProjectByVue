@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 //引入组件
-import Test from '../components/Test.vue'
+import Home from '../views/Home.vue'
 
 
 //使用路由
@@ -11,12 +11,12 @@ export default new Router({
     routes:[
         {
             name:'root',
-            path:'/test',
-            component:Test
+            path:'/home',
+            component:Home
         },
         {
             path:'*',
-            redirect:'/test'
+            redirect:'/home'
             
         }
     ]
