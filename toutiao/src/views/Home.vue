@@ -23,4 +23,8 @@ export default{
 
 
 <style>
+#home{
+  height: 400px;
+  background-color: beige;
+}
 </style>
