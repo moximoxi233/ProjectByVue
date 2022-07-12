@@ -18,7 +18,15 @@ export default{
 </script>
 <style>
 header{
-    height: 30px;
-    background-color: rgb(231, 134, 15);
+    height: 1.2rem;
+    width: 100%;
+    line-height: 1.2rem;
+    background-color:#d43d3d ;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    z-index: 999;
+    color:#fff;
 }
 </style>
