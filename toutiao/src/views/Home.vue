@@ -22,14 +22,7 @@
     <el-alert  class="newsLoadError" title="暂无更新..." type="error" description="此频道暂无更新，请先休息一下！" show-icon></el-alert>
     <transition >
       <ul class="newsContent animated" >
-      <!-- <router-link v-for="(val,index) in listCon" :key="index" class="newsDetaile" :to="{
-        name:'newsdetail',
-        params:{
-          
-        }
-      }">
-      
-      </router-link> -->
+        <!-- <li v-for='(val,index) in listCon' :key="index"></li> -->
       </ul>
     </transition>
     <bottomNav></bottomNav>
@@ -114,15 +107,15 @@ export default{
       }
     },
     computed:{
-      ...mapGetters([
-        'newsList',
-        'loading',
-        'list',
-        'ifReturnMsg',
-        'oneDetail',
-        'routerChange',
-        'downLoadMore'
-      ]),
+      // ...mapGetters([
+      //   'newsList',
+      //   'loading',
+      //   'list',
+      //   'ifReturnMsg',
+      //   'oneDetail',
+      //   'routerChange',
+      //   'downLoadMore'
+      // ]),
       listCon:function(){
         if(this.$route.query.type){
           return this.list[this.$route.query.type];
@@ -132,7 +125,8 @@ export default{
       }
     },
     beforeMount(){
-      console.log(this.$route)
+      // console.log(this.$route)
+      // console.log(listCon)
     }
 }
 </script>
