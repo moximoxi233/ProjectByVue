@@ -22,7 +22,9 @@
     <el-alert  class="newsLoadError" title="暂无更新..." type="error" description="此频道暂无更新，请先休息一下！" show-icon></el-alert>
     <transition >
       <ul class="newsContent animated" >
-        <!-- <li v-for='(val,index) in listCon' :key="index"></li> -->
+        <router-link v-for='(val,index) in listCon' :key="index" class="newsDetaile">
+          <p class="title"></p>
+        </router-link>
       </ul>
     </transition>
     <bottomNav></bottomNav>
@@ -36,6 +38,14 @@
 import headerBar from '../components/Header-bar.vue'
 import bottomNav from '../components/Bottom-nav.vue'
 import toTop from '../components/To-top'
+import * as type from '../store/mutation-types'
+
+import {
+  mapGetters,
+  mapActions,
+  mapState,
+} from 'vuex'
+// import axios from 'axios'
 
 export default{
     components:{
@@ -106,27 +116,62 @@ export default{
 
       }
     },
+    
     computed:{
-      // ...mapGetters([
-      //   'newsList',
-      //   'loading',
-      //   'list',
-      //   'ifReturnMsg',
-      //   'oneDetail',
-      //   'routerChange',
-      //   'downLoadMore'
-      // ]),
+      ...mapGetters([
+        'newsList',
+        'loading',
+        'list',
+        'ifReturnMsg',
+        'oneDetail',
+        'routerChange',
+        'downLoadMore'
+      ]),
       listCon:function(){
         if(this.$route.query.type){
+          // console.log(this.list[this.$route.query.type])
           return this.list[this.$route.query.type];
         }else{
+          // console.log(this.list[this.first])
           return this.list[this.first]
         }
       }
     },
-    beforeMount(){
-      // console.log(this.$route)
-      // console.log(listCon)
+    //beforeRouteUpdate(){}
+    //
+    methods:{
+      ...mapActions([
+        'getNews',
+        'pulldownloadmore'
+      ])
+    },
+    mounted(){
+      this.getNews({
+        kind:this.first,
+        flag:this.routerChange
+      });
+      this.loading=true;
+      const _this=this;
+      window.addEventListener('scroll',this.handleScroll)
+    },
+    watch:{
+      '$route':function(){
+        this.getNews({
+          kind:this.$route.query.type,
+          flag:this.routerChange
+        });
+        if(this.routerChange){
+          this.$store.commit(type.CHANGE_LOADING_STATE,true)
+        }else{
+          this.$store.commit(type.CHANGE_LOADING_STATE,false)
+
+        }
+        this.first=window.location.search.substring(6)
+        this.$store.commit(type.ROUTERECHANGE,true)
+      },
+    },
+    filters:{
+
     }
 }
 </script>

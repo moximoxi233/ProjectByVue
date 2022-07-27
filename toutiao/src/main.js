@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 import './assets/public/reset.css'
 
 //引入element-ui
@@ -17,5 +18,6 @@ Vue.use(ElementUI)
 Vue.use(iView)
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store
 }).$mount('#app')

@@ -1,4 +1,4 @@
-//部分比较复杂的业务逻辑（例如网络请求）需要通过 dispatch提交给actions处理
+//部分比较复杂的业务逻辑（例如网络请求）需要先通过 dispatch提交给actions处理
 import axios from 'axios'
 import jsonp from 'jsonp'
 
