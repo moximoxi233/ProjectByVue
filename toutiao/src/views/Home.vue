@@ -120,19 +120,27 @@ export default{
     computed:{
       ...mapGetters([
         'newsList',
-        'loading',
+        // 'loading',
         'list',
         'ifReturnMsg',
         'oneDetail',
         'routerChange',
         'downLoadMore'
       ]),
+      loading:{
+        get(){
+          return this.$store.state.loading;
+        },
+        set(val){
+          return this.$store.state.loading=val
+        }
+      },
       listCon:function(){
         if(this.$route.query.type){
-          // console.log(this.list[this.$route.query.type])
+          // console.log('列表信息'+this.list[this.$route.query.type])
           return this.list[this.$route.query.type];
         }else{
-          // console.log(this.list[this.first])
+          // console.log('列表信息'+this.list[this.first])
           return this.list[this.first]
         }
       }
@@ -146,11 +154,11 @@ export default{
       ])
     },
     mounted(){
-      this.getNews({
-        kind:this.first,
+      this.getNews({kind:this.first,
         flag:this.routerChange
       });
       this.loading=true;
+      console.log(this.listCon)
       const _this=this;
       window.addEventListener('scroll',this.handleScroll)
     },
