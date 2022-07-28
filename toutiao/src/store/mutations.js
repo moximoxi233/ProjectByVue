@@ -11,6 +11,13 @@ export default{
         }
         state.downLoadMore=true
     },
-    //
-    
+    //新闻切换时 loading 图片的战术
+    [type.CHANGE_LOADING_STATE](state,flag){
+        state.loading=flag
+    },
+    //判断是否有数据请求返回
+    [type.RETURN](state,flag){
+        state.ifReturnMsg=flag
+    }
+
 }

@@ -12,7 +12,7 @@
         </router-link>
       </div>
     </headerBar>
-    <Icon type="md-refresh" size="30" color="#d43d3d" class="pulldown"/>
+    <!-- <Icon type="md-refresh" size="30" color="#d43d3d" class="pulldown"/> -->
     <ul class="homeNav">
       <li v-for="(item,index) in navbar" :key="index" class="navBarLi">
       <router-link :to="{path:item.url,query:{type:item.type}}">{{item.text}}</router-link>
@@ -22,8 +22,33 @@
     <el-alert  class="newsLoadError" title="暂无更新..." type="error" description="此频道暂无更新，请先休息一下！" show-icon></el-alert>
     <transition >
       <ul class="newsContent animated" >
-        <router-link v-for='(val,index) in listCon' :key="index" class="newsDetaile">
-          <p class="title"></p>
+        <router-link v-for='(val,index) in listCon' :key="index" class="newsDetaile" :to="{
+          name:'newsdetails',
+          params:{
+            id:val.tag_id,
+            title:val.title,
+            media_info:val.media_info,
+            media_name:val.media_name,
+            datetime:val.datetime,
+            abstract:val.abstract,
+            image_list:val.image_list,
+            repin_count:val.repin_count,
+            comment_count:val.comment_count,
+            keywords:val.keywords
+          }
+        }">
+          <p class="title">{{val.title}}</p>
+          <div>
+            <img src="" alt="">
+            <div class="bottomInfo clearfix">
+              <Icon type="fireball" size="10" color="#d43d3d" v-show="val.hot===1"></Icon>
+              <span class="avIcon" v-show="val.label==='广告'">广告</span>
+              <span class="writer">{{val.media_name}}</span>
+              <span class="comment_count">评论 {{val.comment_count}}</span>
+              <span class="datetime">{{val.datetime}}</span>
+
+            </div>
+          </div>
         </router-link>
       </ul>
     </transition>
@@ -38,7 +63,7 @@
 import headerBar from '../components/Header-bar.vue'
 import bottomNav from '../components/Bottom-nav.vue'
 import toTop from '../components/To-top'
-import * as type from '../store/mutation-types'
+import * as type from '../store/mutation-types.js'
 
 import {
   mapGetters,
@@ -137,10 +162,8 @@ export default{
       },
       listCon:function(){
         if(this.$route.query.type){
-          // console.log('列表信息'+this.list[this.$route.query.type])
           return this.list[this.$route.query.type];
         }else{
-          // console.log('列表信息'+this.list[this.first])
           return this.list[this.first]
         }
       }
@@ -241,5 +264,8 @@ export default{
 }
 ::-webkit-scrollbar {
     display: none;
+}
+.homeNav{
+  margin-top: 2.3rem;
 }
 </style>
