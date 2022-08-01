@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(iView)
 new Vue({
-  render: h => h(App),
   router,
-  store
+  store,
+  render: h => h(App)
 }).$mount('#app')

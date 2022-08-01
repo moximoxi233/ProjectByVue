@@ -3,6 +3,7 @@ import Router from 'vue-router';
 //引入组件
 import Home from '../views/Home.vue'
 import Detail from '../views/Detail.vue'
+import Collect from '../views/Collect.vue'
 
 
 //使用路由
@@ -27,6 +28,11 @@ export default new Router({
             path:'/newsDetails/:id',
             component:Detail,
             name:'newsdetails'
+        },
+        {
+            path:'/collect/:kind',
+            component: Collect,
+            name:'collect'
         }
     ]
 })

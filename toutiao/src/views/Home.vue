@@ -38,12 +38,12 @@
           }
         }">
           <p class="title">{{val.title}}</p>
-          <div>
-            <img src="" alt="">
+          <div >
+            <img  alt="加载出错" v-for="(item,index) in val.image_list" :key="index" v-lazy="item.url">
             <div class="bottomInfo clearfix">
               <Icon type="fireball" size="10" color="#d43d3d" v-show="val.hot===1"></Icon>
               <span class="avIcon" v-show="val.label==='广告'">广告</span>
-              <span class="writer">{{val.media_name}}</span>
+              <span class="writer">{{val.media_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <span class="comment_count">评论 {{val.comment_count}}</span>
               <span class="datetime">{{val.datetime}}</span>
 
@@ -52,11 +52,24 @@
         </router-link>
       </ul>
     </transition>
-    <bottomNav></bottomNav>
-    <toTop></toTop>  
-</div>
-    
+     <!-- 加载更多 -->
+        
+     <div class="pulldownload" v-show="downLoadMore" @click="pulldownloadmore({kind:first||$router.query.type,flag:downLoadMore})">
+       点击加载更多
+     </div>
 
+    <!-- 回顶部 -->
+    <transition name="bounce" enter-active-class="zoomInLeft" leave-active-class="zoomOutRight">
+        <Back-top v-show="top" class="animated bounce">
+            <div class="top">
+                <Icon type="android-arrow-up"></Icon>
+            </div>
+        </Back-top>
+    </transition>
+
+    <bottomNav></bottomNav>
+    <!-- <toTop></toTop>   -->
+</div>
 </template>
 
 <script>
@@ -209,6 +222,7 @@ export default{
 
 
 <style lang="less" scoped rel="styleheet/less">
+@import '../assets/public/border.less';
 
 .home-header-bar{
   &>i{
@@ -265,7 +279,74 @@ export default{
 ::-webkit-scrollbar {
     display: none;
 }
-.homeNav{
-  margin-top: 2.3rem;
+.newsContent{
+  margin-top: 2.3em;
+  width: 100%;
+  .newsDetaile{
+    width: 94%;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 0.15rem;
+    .borderBottom(1px,#ccc);
+    .title{
+      font-size: 16px;
+      font-weight: bold;
+      color:#000;
+      padding-top: 0.2rem;
+      padding-bottom: 0.15rem;
+    }
+    img{
+      width: 31.1%;
+      margin-right: 0.21rem;
+      height: 2.3em;
+    }
+    .bottomInfo{
+      font-style: 10px;
+      margin-top: 0.15rem;
+        color: #000;
+
+      .writer{
+        color: #000;
+      }
+      .comment_count{
+
+      }
+      .datetime{
+        float: right;
+
+      }
+      .avIcon{
+        display: inline-block;
+        height: 0.4rem;
+        width: 0.9rem;
+        text-align: center;
+        line-height: 0.4rem;
+        border: 1px solid #39f;
+        font-size: 10px;
+        margin-right: 0.1rem;
+
+
+      }
+
+    }
+
+  }
+}
+.pulldownload{
+  margin-bottom: 1.3rem;
+  width: 100%;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  color: #000;
+  font-style: 18px;
+  text-align: center;
+}
+.pulldownbtn {
+    position: absolute;
+    margin: 0 auto;
+    left: 50%;
+    top: 0.5rem;
+    z-index: 1000000;
 }
 </style>
