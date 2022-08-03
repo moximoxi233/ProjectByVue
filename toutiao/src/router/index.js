@@ -4,6 +4,8 @@ import Router from 'vue-router';
 import Home from '../views/Home.vue'
 import Detail from '../views/Detail.vue'
 import Collect from '../views/Collect.vue'
+import Care from '../views/Care.vue'
+import My from '../views/My.vue'
 
 
 //使用路由
@@ -15,6 +17,10 @@ export default new Router({
             path:'/home/:type',
             name:'home',
             component:Home
+        },
+        {
+            path: '/home/',
+            redirect: '/home/all?type=__all__'
         },
         {
             path: '*',
@@ -33,6 +39,21 @@ export default new Router({
             path:'/collect/:kind',
             component: Collect,
             name:'collect'
+        },
+        {
+            path:'/collect/',
+            redirect: '/collect/my'
+        },
+        {
+            path:'/care',
+            component:Care,
+            name:'care'
+        },
+        {
+            path:'/my',
+            component:My,
+            name:'my'
         }
+
     ]
 })
