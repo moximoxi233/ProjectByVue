@@ -18,10 +18,10 @@
       <router-link :to="{path:item.url,query:{type:item.type}}">{{item.text}}</router-link>
       </li>
     </ul>
-    <div element-loading-text="拼命加载中" style="width: 100%" class="loading"></div>
-    <el-alert  class="newsLoadError" title="暂无更新..." type="error" description="此频道暂无更新，请先休息一下！" show-icon></el-alert>
+    <!-- <div v-show="loading" v-loading="loading" element-loading-text="拼命加载中" style="width: 100%" class="loading"></div> -->
+    <el-alert  v-show="!ifReturnMsg" class="newsLoadError" title="暂无更新..." type="error" description="此频道暂无更新，请先休息一下！" show-icon></el-alert>
     <transition >
-      <ul class="newsContent animated" >
+      <ul class="newsContent animated" v-show="!loading&&ifReturnMsg">
         <router-link v-for='(val,index) in listCon' :key="index" class="newsDetaile" :to="{
           name:'newsdetails',
           params:{
@@ -39,11 +39,11 @@
         }">
           <p class="title">{{val.title}}</p>
           <div>
-            <img src="" alt="">
+            <img v-lazy="img.url" alt="加载出错" v-for="(img,index) in val.image_list" :key="index" >
             <div class="bottomInfo clearfix">
               <Icon type="fireball" size="10" color="#d43d3d" v-show="val.hot===1"></Icon>
               <span class="avIcon" v-show="val.label==='广告'">广告</span>
-              <span class="writer">{{val.media_name}}</span>
+              <span class="writer">{{val.media_name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
               <span class="comment_count">评论 {{val.comment_count}}</span>
               <span class="datetime">{{val.datetime}}</span>
 
@@ -52,8 +52,11 @@
         </router-link>
       </ul>
     </transition>
+    <div class="pulldownload" v-show="downLoadMore" @click="pulldownloadmore({kind:first || $router.query.type,flag:downLoadMore})">
+        点击加载更多
+    </div>
     <bottomNav></bottomNav>
-    <toTop></toTop>  
+    <!-- <toTop></toTop>   -->
 </div>
     
 
@@ -176,6 +179,10 @@ export default{
         'pulldownloadmore'
       ])
     },
+    beforeRouteUpdate (to, from, next){
+        this.$store.commit(type.PULLDOWNBTN, false);
+        next();
+    },
     mounted(){
       this.getNews({kind:this.first,
         flag:this.routerChange
@@ -198,7 +205,7 @@ export default{
 
         }
         this.first=window.location.search.substring(6)
-        this.$store.commit(type.ROUTERECHANGE,true)
+        this.$store.commit(type.ROUTERCHANGE,true)
       },
     },
     filters:{
@@ -209,7 +216,7 @@ export default{
 
 
 <style lang="less" scoped rel="styleheet/less">
-
+@import '../assets/css/border.less';
 .home-header-bar{
   &>i{
     margin-top: 0.2rem;
@@ -265,7 +272,87 @@ export default{
 ::-webkit-scrollbar {
     display: none;
 }
-.homeNav{
-  margin-top: 2.3rem;
+.newsContent {
+    margin-top: 2.3rem;
+    width: 100%;
+    .newsDetaile {
+        width: 94%;
+        display: block;
+        position: relative;
+        margin: 0 auto;
+        padding-bottom: 0.15rem;
+        .borderBottom(1px,#ccc);
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #000;
+            padding-top: 0.2rem;
+            padding-bottom: 0.15rem;
+        }
+        img {
+            width: 31.1%;
+            margin-right: 0.21rem;
+            height: 2.3rem;
+            object-fit:cover
+        }
+        .bottomInfo {
+            font-size: 10px;
+            margin-top: 0.15rem;
+            .writer {
+                color: #000;
+            }
+            .comment_count {
+                color: #000;
+            }
+            .datetime {
+                float: right;
+                color: #000;
+            }
+            .avIcon {
+                display: inline-block;
+                height: 0.4rem;
+                width: 0.9rem;
+                text-align: center;
+                line-height: 0.4rem;
+                border-radius: 4px;
+                border: 1px solid #39f;
+                font-size: 10px;
+                margin-right: 0.1rem;
+            }
+        }
+    }
+}
+.loading {
+    margin-top: 3.4rem;
+}
+.newsLoadError {
+    margin: 2.3rem auto;
+    font-size: 25px;
+    width: 90%;
+}
+.pulldownload {
+    margin-bottom: 1.3rem;
+    width: 100%;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: #000;
+    font-size: 18px;
+    text-align: center;
+}
+.top {
+    position: absolute;
+    bottom: 2rem;
+    right: 0.15rem;
+    background: #d43d3d;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+}
+.pulldownbtn {
+    position: absolute;
+    margin: 0 auto;
+    left: 50%;
+    top: 0.5rem;
+    z-index: 1000000;
 }
 </style>

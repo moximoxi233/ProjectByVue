@@ -18,6 +18,14 @@ export default{
     //判断是否有数据请求返回
     [type.RETURN](state,flag){
         state.ifReturnMsg=flag
-    }
+    },
+    //控制下拉加载数据的按钮
+    [type.PULLDOWNBTN](state, sign){
+        state.downLoadMore = sign;
+    },
+    //判断路有变化
+    [type.ROUTERCHANGE](state, sign){
+        state.routerChange = sign;
+    },
 
 }

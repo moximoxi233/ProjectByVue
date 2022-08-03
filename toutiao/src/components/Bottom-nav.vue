@@ -4,7 +4,7 @@
         <div class="bottom_nav_icon icon_1"></div>
         <div class="bottom_nav_text">首页</div>
     </router-link>
-    <router-link to="/collect/my" class="navItems">
+    <router-link to="/collect/" class="navItems">
         <div class="bottom_nav_icon icon_2"></div>
         <div class="bottom_nav_text">收藏</div>
     </router-link>

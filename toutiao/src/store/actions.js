@@ -28,7 +28,8 @@ export default{
     },
     pulldownloadmore({commit,state},payload){   //下拉刷新后加载的数据
         if(payload.flag&&payload.kind){
-            jsonp('http://m.toutiao.com/list/?tag='+pay.kind+'&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time='+parseInt((new Date().getTime())/1000),
+            commit(type.PULLDOWNBTN,false)
+            jsonp('http://m.toutiao.com/list/?tag='+payload.kind+'&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time='+parseInt((new Date().getTime())/1000),
                 function(err,res){
                     commit(type.GET_NEWSLIST,{
                         data:res.data,
