@@ -1,6 +1,7 @@
 <template>
-    <div id="my">
-        <div class="my-header">
+    <div id="my" >
+        <div v-if="logined">
+            <div class="my-header" >
             <router-link to="/selfpage"  class="my-info">
                 <img src="../assets/imgs/head.jpg" alt="" class="headimg">
                 <span>username</span>
@@ -36,16 +37,20 @@
         </ul>
         <router-link class="tipItems" to="/">
             消息通知
+            <Icon type="ios-arrow-forward" size="26" color="#ccc" class="fr toSetup"/>
         </router-link>
         <router-link class="tipItems" to="/setup">
             设置
-            <Icon type="sarrow-right" size="26" color="#ccc" class="fr toSetup"></Icon>
+            <Icon type="ios-arrow-forward" size="26" color="#ccc" class="fr toSetup"/>
+            <!-- <Icon type="sarrow-right" size="26" color="#ccc" class="fr toSetup"></Icon> -->
         </router-link>
-        <div class="loginBox">
+        </div>
+        <!-- 登录板块 -->
+        <div class="loginBox" v-else>
             <h2 class="logintitle">登录你的头条，精彩永不丢失</h2>
-            <Input class="admin loginInfo" placeholder="请输入账号"></Input>
-            <Input class="admin loginInfo" placeholder="请输入密码" type="password"></Input>
-            <Button>登&nbsp;录</Button>
+            <Input class="admin loginInfo" placeholder="请输入账号" v-model="admin"></Input>
+            <Input class="admin loginInfo" placeholder="请输入密码" type="password" v-model="password"></Input>
+            <Button @click="login" @keyup.enter='login' >登&nbsp;录</Button>
             <!-- <Button>登&nbsp;录</Button> -->
         </div>
 
@@ -54,14 +59,68 @@
 </template>
 
 <script>
-// import headerBar from '../components/Header-bar.vue'
+import * as type from '../store/mutation-types.js'
+import {mapGetters,mapActions} from 'vuex'
 import bottomNav from '../components/Bottom-nav.vue'
 
 export default{
+    
     components:{
         // headerBar,
         bottomNav
+    },
+    data(){
+        return{
+            admin:'',
+            password:''
+        }
+    },
+    computed:{
+        ...mapGetters([
+            'userName','vitality','logined'
+        ])
+    },
+    methods:{
+        ...mapActions(['setUserInfo']),
+        login(){
+            if(this.admin==='admin'&&this.password==='admin'){
+                this.setUserInfo(this.admin);
+                this.$store.commit(type.LOGOFF,true);
+                console.log('目前登录状态',this.logined)
+                this.admin='';
+                this.password='';
+            }else if(this.admin===''){
+                this.open('1')
+
+            }else if(this.password===''){
+                this.open('2')
+            }else{
+                this.open('2')
+                
+            }
+                
+        },
+        open(nodesc){
+            if(nodesc==='1'){
+                this.$Notice.open({
+                    title:'账号不能为空',
+                    duration:2
+                })
+            }else if(nodesc==='2'){
+                this.$Notice.open({
+                    title:'密码不能为空',
+                    duration:2
+                })
+            }else{
+                this.$Notice.open({
+                    title:'账号或密码错误',
+                    duration:2
+                })
+            }
+        
+        }
     }
+
 }
 </script>
 
@@ -121,6 +180,7 @@ export default{
 .midBar{
     position: relative;
     width: 100%;
+    height: 1.7rem;
     padding: 0.3rem 0;
     .borderBottom(1px,#ccc);
     // background-color: aqua;
@@ -154,8 +214,9 @@ export default{
 .tipItems {
     display: block;
     height: 1.1rem;
+    // background: #d43d3d;
     width: 100%;
-    margin-top: 0.3rem;
+    margin-top: 0.4rem;
     color: #000;
     font-size: 16px;
     line-height: 1.1rem;
@@ -174,7 +235,7 @@ export default{
     padding: 0.2rem;
     background: #d43d3d;
     color: #fff;
-    margin: auto auto;
+    margin: 0.4rem auto;
     padding: 1rem;
     border-radius: 0.4rem;
     .logintitle{

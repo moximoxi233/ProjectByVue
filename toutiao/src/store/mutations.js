@@ -27,5 +27,17 @@ export default{
     [type.ROUTERCHANGE](state, sign){
         state.routerChange = sign;
     },
+    //登录和退出
+    [type.LOGINING](state,payload){
+        state.logined=payload
+    },
+    //是否展示退出登录按钮
+    [type.LOGOFF](state,sign){
+        state.showLog_off=sign
+    },
+    //渲染用户名
+    [type.GETUSERDATA](state,res){
+        state.userName=res
+    }
 
 }
