@@ -1,7 +1,7 @@
 <template>
     <div id="care">
         <headerBar>
-
+            <div slot="care" class="home-header-bar"><span>我的关注</span></div>
         </headerBar>
 
         <bottomNav>
@@ -22,6 +22,9 @@ export default{
 }
 </script>
 
-<style>
+<style lang="less">
+.home-header-bar{
+    font-size: 18px;
+}
 </style>
 
