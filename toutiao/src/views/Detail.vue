@@ -8,30 +8,29 @@
         </div>
     </headerBar>
 <div class="container">
-    <h2 class="detail_title">标题标题标题标题</h2>
+    <h2 class="detail_title">{{$route.params.title}}</h2>
     <div class="media_name">
-        <img src="" alt="">
-        <span class="name">zoe用户名</span>
-        <span class="date">2011</span>
+        <img src="../assets/imgs/head.jpg" alt="">
+        <span class="name">{{media_name}}</span>
+        <span class="date">{{datetime}}</span>
     </div>
     <div class="contentNews">
-        描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述描述
-        <img src="" alt="">
+        {{abstract}}
+        <!-- image_list -->
+        <img :src="img.url" alt="" v-for="(img,index) in image_list" :key="index">
     </div>
     <div class="keywords">
-        <span>娱乐</span>
+        <span v-for="(keyword,index) in keywords" :key="index">{{keyword}}</span>
     </div>
     <div class="zan">
-        <Button class="btnitems"><Icon type="md-heart" size="26" color="#000"/>&nbsp;33</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button class="btnitems"><Icon type="md-heart" size="26" color="#000"/>&nbsp;{{repin_count}}</Button>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button class="btnitems"><Icon type="ios-sad-outline" size="26" color="#000"/>&nbsp;不喜欢</Button>
 
     </div>
 </div>
-<comment></comment>
-<shareBox></shareBox>
+<comment :comment="comment_count"></comment>
+<shareBox :show="Sharebox"></shareBox>
 </div>
-
-
 </template>
 
 <script>
@@ -40,6 +39,7 @@ import shareBox from '../components/Share.vue'
 import comment from '../components/Comment.vue';
 import * as type from '../store/mutation-types.js'
 import {mapActions,mapGetters} from 'vuex'
+
 export default{
     components:{
         headerBar,
@@ -48,10 +48,90 @@ export default{
     },
     data(){
        return {
-            // media_info:this.$router.params.media_info,
-            // title:this.$router.params.title
+            media_info:this.$route.params.media_info,
+            title:this.$route.params.title
        }
+    },
+    methods:{
+        goBack:function(){
+            this.$store.commit(type.ROUTERCHANGE,!this.routerChange)
+            this.$router.go(-1)
+        },
+        showSharebox:function(){
+            this.$store.commit(type.SHOWSHAREBOX,!this.Sharebox)
+        }
+
+    },
+    computed:{
+        ...mapGetters([
+            'oneDetail',
+            'Sharebox',
+            'routerChange'
+        ]),
+        media_name:function(){
+            if(this.$route.params.media_name){
+                return this.$route.params.media_name
+            }else{
+                return ''
+            }
+        },
+        datetime:function(){
+            if(this.$route.params.datetime){
+                return this.$route.params.datetime
+            }else{
+                return ''
+            }
+        },
+        abstract:function(){
+            if(this.$route.params.abstract){
+                return this.$route.params.abstract
+            }else{
+                return ''
+            }
+        },
+        image_list:function(){
+            if(this.$route.params.image_list){
+                return this.$route.params.image_list
+            }else{
+                return ''
+            }
+        },
+        keywords:function(){
+            if(this.$route.params.keywords){
+                return this.$route.params.keywords
+            }else{
+                return ''
+            }
+        },
+        repin_count:function(){
+            if(this.$route.params.repin_count){
+                return this.$route.params.repin_count
+            }else{
+                return ''
+            }
+        },
+        comment_count:function(){
+            if(this.$route.params.comment_count){
+                return this.$route.params.comment_count
+            }else{
+                return ''
+            }
+        },
+
+    },
+    watch:{
+        '$route':function(){
+            this.$store.commit(type.SHOWSHAREBOX,false)
+        }
+    },
+    mounted(){
+       setTimeout(() => {
+
+      console.log(this.$route);
+
+    }, 1000);
     }
+
 }
 </script>
 
@@ -83,6 +163,7 @@ export default{
             font-size: 20px;
         }
         .media_name{
+            margin-top: 6px;
             position: relative;
             img{
                 width: 40px;
@@ -94,8 +175,8 @@ export default{
                 display: inline-block;
             }
             .name{
-                font-size: 0.5rem;
-                font-weight: 400;
+                font-size: 0.4rem;
+                font-weight: 600;
                 color: #000;
                 position: absolute;
                 margin-left: 0.2rem;

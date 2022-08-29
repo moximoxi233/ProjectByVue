@@ -6,6 +6,7 @@ import Detail from '../views/Detail.vue'
 import Collect from '../views/Collect.vue'
 import Care from '../views/Care.vue'
 import My from '../views/My.vue'
+import Setup from '../views/Setup.vue'
 
 
 //使用路由
@@ -54,6 +55,11 @@ export default new Router({
             path:'/my',
             component:My,
             name:'my'
+        },
+        {
+            path:'/setup',
+            component:Setup,
+            name:'setup'
         }
     ]
 })

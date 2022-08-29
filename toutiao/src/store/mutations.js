@@ -38,6 +38,11 @@ export default{
     //渲染用户名
     [type.GETUSERDATA](state,res){
         state.userName=res
+    },
+    //shareBox分享狂是否展示
+    [type.SHOWSHAREBOX](state,sign){
+        state.Sharebox=sign
     }
+
 
 }
