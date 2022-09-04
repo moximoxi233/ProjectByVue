@@ -7,6 +7,10 @@ import Collect from '../views/Collect.vue'
 import Care from '../views/Care.vue'
 import My from '../views/My.vue'
 import Setup from '../views/Setup.vue'
+import Editprofile from '../views/Editprofile.vue'
+import Search from '../views/Search.vue'
+import Selfpage from '../views/Selfpage.vue'
+
 
 
 //使用路由
@@ -60,6 +64,20 @@ export default new Router({
             path:'/setup',
             component:Setup,
             name:'setup'
+        },
+        {
+            path:'/editprofile',
+            component:Editprofile,
+            name:'editprofile'
+        },
+        {
+            path:'/search',
+            component:Search,
+            name:'search'
+        },{
+            path:'/selfpage',
+            component:Selfpage,
+            name:'selfpage'
         }
     ]
 })

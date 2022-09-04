@@ -42,6 +42,11 @@ export default{
     //shareBox分享狂是否展示
     [type.SHOWSHAREBOX](state,sign){
         state.Sharebox=sign
+    },
+    //修改个人简介
+    [type.CHANGEINTRODUCE](state,introduce){
+        state.introduce=introduce;
+        state.hasIntroduce=true
     }
 
 

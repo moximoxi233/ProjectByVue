@@ -18,7 +18,7 @@ const state={
     downLoadMore:false, //首页新闻底部是否加载更多
     hasIntroduce:false, //是否已有个人简介
     collected:false,    //是否收藏
-    hasIntroduce:'',    //selfpage页 个人简介内容   
+    introduce:'',    //selfpage页 个人简介内容   
     vitality:{          //my页个人信息
         follow:14,
         fans:200,
