@@ -28,13 +28,17 @@ sass是 世界上最成熟、最稳定、最强大的专业级CSS扩展语言！
 1. 在vscode中下载插件，搜索：easy sass
 2. 配置环境：勾选 Easysass:Complile After Save下的自动保存选框
 ##### 项目中使用
-1. `npm install node-sass,sass-loader`
-2. 在build.js 中的webpack.base.conf.js中添加代码：
-
-{
-  test: /\.scss$/,
-  loader: 'sass-loader!style-loader!css-loader',
-}
-
+1. 安装
+- `npm i sass`
+- `npm i sass-loader@10.1.1`
+2. 使用
+在style标签中写入 ⚠️lang='scss'，这样样式代码直接嵌套编写
+```css
+<style lang="scss" scoped> </style>>
+```
+引入外部sass文件
+```css
+import "@/xxxxxx.scss"
+```
 
 

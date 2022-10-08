@@ -1,21 +1,23 @@
 <template>
 <div class="header">
     <div class="content-wrapper">
-        <div class="avatar">
-            <!-- 头像 -->
-            <img src="" alt="">
-        </div>
+        
         <div class="content">
-            <!-- 门店名称 -->
-            <div class="shop">
-                <span class="brand"></span>
-                <span class="name"></span>
-            </div>
-            <!-- 配送信息描述：评分/配送信息/销量/是否自取 -->
-            <div class="description">
-                <span class="score"></span>
-                <span class="send_text"></span>
-            </div>
+            <!-- 门店信息 -->
+            <div class="avatar">
+                <!-- 门店基本信息-->
+                <div class="shop">
+                    <!-- 店名 -->
+                    <h1 class="name">店名店名</h1>
+                    <!-- 配送信息描述：评分/配送信息/销量/是否自取 -->
+                    <div class="description">
+                        <span class="score">4.6分</span>&nbsp;
+                        <span class="send_text">商家配送 约35分钟</span>
+                    </div>
+                </div>
+                <!-- 头像 -->
+                <img src="" alt="">
+            </div>          
             <!-- 公告 -->
             <div class="bulletin_wrapper">
                 <span class="bulletin_text">公告：售后服务电话92891987747</span>
@@ -109,6 +111,44 @@ export default{
 </script>
 
 
-<style>
+<style lang="scss" scoped>
+.header{
+    position: relative;
+    // background-image: url(https://img2.baidu.com/it/u=2398126773,3303439363&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1665421200&t=37389b818349c58b8fa0c74ee23ebd37);
+    background: rgba(38, 85, 132, 0.5);
+    height: 220px;
+    // color: #fff;
+    //blur是内置函数用于制作毛玻璃效果，该元素最好不要应用在有内容的父元素中，不然整个容器都会出现毛玻璃效果
+    // filter:blur(10px); 
+    // overflow: hidden;
+    .content-wrapper{
+        position: relative;
+        top: 90%;
+        width: 85%;
+        margin: auto;
+        border-radius: 10px;
+        background-color: antiquewhite;
+        padding: 24px 12px 18px 24px;
+        .content{
+            .avatar{
+                display: flex;
+                justify-content: space-between;
+                img{
+                    border-radius: 6px;
+                    background-color: aqua;
+                    width: 40px;
+                    height: 40px;
+                }
+        }
+
+        }
+        
+        
+
+    }
+
+
+
+}
 
 </style>
