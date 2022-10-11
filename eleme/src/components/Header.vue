@@ -181,8 +181,9 @@ export default{
         }
         .content{
             position: relative;
+            box-sizing: border-box;
             top: -20px;
-            width: 85%;
+            width: 94%;
             margin: auto;
             border-radius: 10px;
             background-color: rgb(255, 255, 255);
