@@ -41,6 +41,7 @@
                 <div class="discount_count">
                     <span class="discount_nums" @click="changeShow">2个优惠</span>
                     <!-- 下拉箭头图标占位 -->
+                    <el-icon><ArrowDown style="width:10px;height:10px:color:#666"/></el-icon>
                 </div>
             </div>
         </div>
@@ -56,7 +57,7 @@
                     </div>
                     <div class="detail-close" @click="changeShow">
                         <!-- 关闭弹窗框图标占位 -->
-                        <!-- <i class="icon-close" @click="hideDetail()"></i> -->
+                        <el-icon><Close style="width:30px;height:30px;color:#666"/></el-icon>
                     </div>
                     <div class="foodie_card">
                         <!-- 吃货卡 -->
@@ -271,15 +272,15 @@ export default{
         height: 86%;
         box-sizing: border-box;
         border-radius: 20px 20px 0 0;
-        background-color: antiquewhite;
+        background-color: rgb(255, 255, 255);
         padding: 0 10px;
         .detail_type{
             text-align: center;
         }
         .detail-close{
-            width: 24px;
-            height: 24px;
-            background-color: black;
+            // width: 24px;
+            // height: 24px;
+            // background-color: black;
             position: absolute;
             top: 16px;
             right: 16px;

@@ -40,5 +40,30 @@ sass是 世界上最成熟、最稳定、最强大的专业级CSS扩展语言！
 ```css
 import "@/xxxxxx.scss"
 ```
+#### ui组件库
+##### 饿了么UI库
+[element-plus ui 使用指南](https://element-plus.gitee.io/zh-CN/component/icon.html#%25E5%259B%25BE%25E6%25A0%2587%25E9%259B%2586%25E5%2590%2588)
+**npm 安装**
+`npm install element-plus --save`
+常用：图标内容
+**支持按需引入 针对性安装**
+`npm install @element-plus/icons-vue`
+main.js中
+```js
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+const app=createApp(App)
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
+  }
+```
+使用
+```html
+<el-icon><ArrowRight style="width:10px;height:10px:color:#666"/></el-icon>
+```
+#### 路由vue-router
+**安装**
+`npm install vue-router`
+**使用**
+main.js中
 
 

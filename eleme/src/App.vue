@@ -1,6 +1,20 @@
 <template>
 <div class="bg">
   <Header msg="粥品香坊"/>
+  <div class="tab">
+    <div class="tab-item">
+      <router-link to="/goods">商品</router-link>
+    </div>
+    <div class="tab-item">
+      <router-link to="/ratings">评分</router-link>
+    </div>
+    <div class="tab-item">
+      <router-link to="/seller">品牌</router-link>
+    </div>
+  </div>
+  <keep-alive>
+    <router-view :seller="seller"></router-view>
+  </keep-alive>
 
 </div>
 
@@ -9,7 +23,6 @@
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
-
 export default {
   name: 'App',
   components: {
