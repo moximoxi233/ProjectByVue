@@ -66,7 +66,6 @@ a{
           height: 4px;
           margin: 0 auto;
           display: inline-block;
-          border-radius: 2px;
       }
       }
       .active{

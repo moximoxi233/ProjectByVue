@@ -40,7 +40,7 @@ sass是 世界上最成熟、最稳定、最强大的专业级CSS扩展语言！
 ```css
 import "@/xxxxxx.scss"
 ```
-#### ui组件库
+#### 三方库
 ##### 饿了么UI库
 [element-plus ui 使用指南](https://element-plus.gitee.io/zh-CN/component/icon.html#%25E5%259B%25BE%25E6%25A0%2587%25E9%259B%2586%25E5%2590%2588)
 **npm 安装**
@@ -60,10 +60,28 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 ```html
 <el-icon><ArrowRight style="width:10px;height:10px:color:#666"/></el-icon>
 ```
-#### 路由vue-router
+##### axios-网络请求库
+[acios介绍](https://www.axios-http.cn/docs/intro)
+安装（使用npm安装）
+`npm install axios`
+项目中使用
+#### 插件
+##### 路由vue-router
+[vue-router路由](https://blog.csdn.net/sinat_17775997/article/details/80688397)
 **安装**
 `npm install vue-router`
 **使用**
-main.js中
+main.js中引入
+```js
+import router from'./router'
+app.use(router)
+```
+##### beter-scroll
+beter-scroll:解决各种滚动场景需求的插件
+[better-scoll 详解](https://blog.csdn.net/wzg0817/article/details/108013765)
+安装
+`npm install better-scroll --save`
+引入
+`import BScroll from 'better-scroll'`
 
 
