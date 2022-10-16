@@ -3,8 +3,14 @@
         <!-- 菜单栏（左） -->
         <div class="menu-wrapper" ref="menuWrapper">
             <ul>
+                <li class="">
+                    <span class="text">组合套餐组合套餐组合套餐</span>
+                </li>
                 <li class="menu-item-selected">
                     <span class="text">超值套餐</span>
+                </li>
+                <li class="">
+                    <span class="text">组合套餐组合套餐组合套餐</span>
                 </li>
             </ul>
 
@@ -67,17 +73,73 @@ export default{
 <style lang="scss" scope>
 .goods{
     display: flex;
-    padding-left: 3%;
     // flex-direction: row;
     .menu-wrapper{
-        width: 20%;
+        width: 22%;
+        min-height: 400px;
+        background-color: rgb(247, 247, 247);
+
+        color: rgb(103, 103, 103);
+        text-align: center;
+        li{
+            // height: 30px;
+            font-size: 14px;
+            line-height: 18px;
+            padding-left: 3%;
+            padding: 10px 10px;
+            background-color: rgb(230, 230, 230);
+
+        }
+        li.menu-item-selected+li{
+            border-top-right-radius: 10px;
+        }
+
         .menu-item-selected{
-            background-color: white;
-            .tex{
-                font-size: 16px;
+            background-color: rgb(247, 247, 247);
+            // background-color: white;
+            .text{
+                color: black;
                 font-weight: 600px;
             }
         }
+    }
+    //右菜单
+    .foods-wrapper{
+        width: 80%;
+       padding: 0 3%; 
+       .food-type{
+        h1{
+            font-size: 16px;
+            font-weight: 800;
+            line-height: 14px;
+        }
+        .food-item{
+            display: flex;
+            flex-direction: row;
+            .food_img{
+                width: 100px;
+                height:100px;
+                background-color: antiquewhite;
+                border-radius: 10px;
+                // flex-grow: 1;
+            }
+            .food_content{
+                padding: 0 3%;
+                // flex-grow: 1.2;
+                .food_name{
+                    font-size: 16px;
+                    font-weight: 600;
+                    line-height: 0px;
+                }
+                .sell_info,.description{
+                    font-size: 12px;
+                    color: #999;
+                    margin: 0;
+                    line-height: 16px;
+                }
+            }
+        }
+       }
     }
 }
 </style>
