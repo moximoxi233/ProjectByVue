@@ -10,9 +10,6 @@
                 <li class="menu-item-selected">
                     <span class="text">超值套餐</span>
                 </li>
-                <li class="">
-                    <span class="text">组合套餐组合套餐组合套餐</span>
-                </li>
             </ul>
 
         </div>
@@ -124,7 +121,7 @@ export default{
             line-height: 18px;
             padding-left: 3%;
             padding: 16px 10px;
-            background-color: rgb(230, 230, 230);
+            background-color: #f2f2f2;
 
         }
         li.menu-item-selected+li{
@@ -158,7 +155,8 @@ export default{
                 img{
                     width: 100px;
                     border-radius: 10px;
-                    height:100px
+                    height:100px;
+                    object-fit: cover;
                 }
             }
             .food_content{

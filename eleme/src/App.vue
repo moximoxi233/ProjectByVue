@@ -46,21 +46,20 @@ a{
 }
 .bg{
   height: 100vh;
-  background-color: rgb(247, 247, 247);
+  background-color: rgb(255 255 255);
   .tab{
     display: flex;
     width: 94%;
-    margin: auto;
+    margin: 2px auto;
     .tab-item{
       font-size: 18px;
-      font-weight: 800;
       margin-right: 30px;
       display: flex;
       flex-direction: column;
       a{
         display: flex;
         flex-direction: column;
-      color: rgb(79, 79, 79);
+      color: #111;
       i{
           width: 20px;
           height: 4px;
@@ -69,7 +68,8 @@ a{
       }
       }
       .active{
-        color: black;
+        font-weight: 600;
+
         i{
           background-color: rgb(146, 50, 50);
         }
