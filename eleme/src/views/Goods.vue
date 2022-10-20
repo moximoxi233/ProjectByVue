@@ -1,4 +1,5 @@
 <template>
+    <!-- 商品列表&详情 -->
     <div class="goods">
         <!-- 菜单栏（左） -->
         <div class="menu-wrapper" ref="menuWrapper">
@@ -41,33 +42,45 @@
                                     <span class="normal">单点不送</span>
                                 </div>
                                  <div class="price">
-                                    <span class="unit">¥</span>
-                                    <span class="newPrice">{{item_foods.price}}</span>
-                                    <span class="oldPrice">¥30</span>
+                                    <div>
+                                        <span class="unit">¥</span>
+                                        <span class="newPrice">{{item_foods.price}}</span>
+                                        <span class="oldPrice">¥30</span>
+                                    </div>
+                                                                     <!-- 购物车管理 -->
+                                    <div class="cartcontrol-wrapper">
+                                        <Carcontrol />
+                                    </div>
                                  </div>
-                                 <!-- 购物车管理 -->
-                                 <div class="cartcontrol-wrapper">
-                                    🛒组件
-                                 </div>
+
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
         </div>
-        <!-- 购物车 组件 -->
-        <!-- 购物车详情 组件 -->
+        
     </div>
+    <!-- 购物车 组件 -->
+    <Car class="car"/>
+    <!-- 购物车详情 组件 -->
 </template>
 <script>
 import BScroll from 'better-scroll'
 import {nextTick, ref} from 'vue'
 import axios from 'axios'
+import Carcontrol from './Carcontrol.vue'
+import Car from './Car.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
 import { reactive, onUnmounted, onUpdated, onMounted, toRefs } from 'vue'; 
 export default{
     name:'Goods',
+    components:{
+    Carcontrol,
+    Car
+    },
     setup(){
+
         let goods=ref([]);//菜品数据
         let listHeight=ref([]);//列表高度（序列）数组
         let foodsScrollY=ref(0);//
@@ -75,9 +88,9 @@ export default{
         //数据请求 数据来源 public/static/data.json
         let getData=()=>{
             axios.get('./data.json').then(res=>{
-                console.log(goods.value)
+                // console.log(goods.value)
                 goods.value=res.data.goods
-                console.log(goods.value)
+                // console.log(goods.value)
             })
 
         }
@@ -85,7 +98,6 @@ export default{
         // console.log(goods,'请求数据')
         // })
         onMounted(()=>{
-        // console.log(this.goods)
         getData()
         console.log(goods)
 
@@ -101,20 +113,17 @@ export default{
 .goods{
     display: flex;
     box-sizing: border-box;
-    // flex-direction: row;
     .menu-wrapper{
         width: 22%;
         min-height: 400px;
         background-color: rgb(247, 247, 247);
-
         color: rgb(103, 103, 103);
         text-align: center;
         li{
-            // height: 30px;
             font-size: 14px;
             line-height: 18px;
             padding-left: 3%;
-            padding: 10px 10px;
+            padding: 16px 10px;
             background-color: rgb(230, 230, 230);
 
         }
@@ -124,7 +133,6 @@ export default{
 
         .menu-item-selected{
             background-color: rgb(247, 247, 247);
-            // background-color: white;
             .text{
                 color: black;
                 font-weight: 600px;
@@ -138,30 +146,24 @@ export default{
        .food-type{
         h1{
             font-size: 16px;
-            font-weight: 800;
-            line-height: 14px;
+            font-weight: 600;
+            line-height: 16px;
+            margin: 16px 0px;
         }
         .food-item{
             display: flex;
             flex-direction: row;
+            margin-bottom: 6px;
             .food_img{
-                flex: 1;
-                width: 100px;
-                height:100px;
-                background-color: antiquewhite;
-                border-radius: 10px;
-                overflow: hidden;
-                // flex-grow: 1;
                 img{
-                    width: 100%;
-                    height: 100%;
+                    width: 100px;
+                    border-radius: 10px;
+                    height:100px
                 }
             }
             .food_content{
                 box-sizing: border-box;
-                flex: 2;
                 padding: 0 3%;
-                // flex-grow: 1.2;
                 .food_name{
                     font-size: 16px;
                     font-weight: 600;
@@ -169,49 +171,59 @@ export default{
                 }
                 .sell_info,.description{
                     white-space: nowrap;
-                    // width: 20%;
                     width: 180px;
                     text-overflow: ellipsis;
                     overflow: hidden;
                     font-size: 12px;
                     color: #999;
-                    margin: 2px;
+                    margin: 4px 0px;
                     line-height: 16px;
                 }
                 .discount{
+                    margin: 2px 0px;
                     
                     span{
-                        font-size: 6px;
+                        font-size: .1px;
                         color: rgb(255, 75, 51);
                         display: inline-block;
                         border-radius: 4px;
                         padding: 1px 3px;
-                        border: 1px rgb(255, 75, 51) solid;
+                        border: .4px rgb(242, 85, 65) solid;
                         margin-right: 4px;
                     }
                 }
                 .price{
+                    display: flex;
+                    justify-content: space-between;
+                    margin: 8px 0;
                     .unit{
                         font-size: 4px;
+                        font-weight: 400;
                         color: rgb(255, 75, 51);
 
                     }
                     .newPrice{
-                        font-size: 16px;
+                        font-size: 18px;
                         font-weight: 600;
                         color: rgb(255, 75, 51);
                         margin-right: 4px;
                         
                     }
                     .oldPrice{
-                        font-size: 4px;
+                        font-size: .1px;
                         color: #999;
-                        text-decoration: inherit;
+                        text-decoration: line-through;
                     }
                 }
             }
         }
        }
     }
+}
+.car{
+    position: fixed;
+    bottom: 0;
+    z-index: 800;
+    // height: 80px;
 }
 </style>
