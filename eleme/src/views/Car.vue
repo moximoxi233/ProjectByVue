@@ -5,7 +5,7 @@
         <!-- 点餐详情 -->
         <div class="order">
             <div class="carLogo">
-                <el-icon><PlatformEleme style="width:60px;height:60px:color:#02b6fd"/></el-icon>
+                <el-icon><ElemeFilled style="color:rgba(2,182,253,1)"/></el-icon>
                 <!-- <i class="logo el-icon-platform-eleme"></i> -->
             </div>
             <div class="orderDetail">
@@ -54,14 +54,14 @@ export default{
         padding: 0 20px;
         justify-content: space-between;
         height: 83px;
-        background-color: #fffae9;
+        background-color: white;
         .order{
             display: flex;
             align-items: center;
             .carLogo{
-                width: 60px;
-                height: 60px;
-                background-color: aqua;
+                width: 50px;
+                height: 50px;
+                // background-color: #00ffff;
                 margin-right: 10px;
             }
             .orderDetail{

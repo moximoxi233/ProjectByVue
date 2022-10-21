@@ -14,7 +14,7 @@
 
         </div>
         <!-- 菜品列表（右） -->
-        <div class="foods-wrapper">
+        <div class="foods-wrapper" ref="foodsWrapper">
             <ul>
                 <li class="food-type" v-for="(item,index) in goods" :key=index>
                     <!-- 菜品类型 -->
@@ -61,6 +61,7 @@
     <!-- 购物车 组件 -->
     <Car class="car"/>
     <!-- 购物车详情 组件 -->
+    <Foodcar class="foodcar"/>
 </template>
 <script>
 import BScroll from 'better-scroll'
@@ -68,13 +69,15 @@ import {nextTick, ref} from 'vue'
 import axios from 'axios'
 import Carcontrol from './Carcontrol.vue'
 import Car from './Car.vue'
+import Foodcar from './Foodcar.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
 import { reactive, onUnmounted, onUpdated, onMounted, toRefs } from 'vue'; 
 export default{
     name:'Goods',
     components:{
     Carcontrol,
-    Car
+    Car,
+    Foodcar
     },
     setup(){
 
@@ -91,15 +94,37 @@ export default{
             })
 
         }
+        // 初始化菜单栏/商品列表滚动
+        let menuWrapper=ref(null)
+        let foodsWrapper=ref(null)
+        let initScroll=()=>{
+            let scroll=new BScroll(menuWrapper.value,{
+                probeType:2
+            })
+            scroll.on('scroll',pos=>{
+                console.log('scroll',scroll)
+                console.log(pos)
+            })
+            console.log('scroll',scroll)
+
+        }
         // nextTick(()=>{
         // console.log(goods,'请求数据')
         // })
         onMounted(()=>{
-        getData()
-        console.log(goods)
+        getData();
+        initScroll();
+        console.log('页面挂载后getData()得到的数据：',goods)
 
         })
-        return {goods,listHeight,foodsScrollY,selectedFood}
+        return {
+            goods,
+            listHeight,
+            foodsScrollY,
+            selectedFood,
+            menuWrapper,
+            initScroll
+        }
 
         
     },
@@ -111,6 +136,7 @@ export default{
     display: flex;
     box-sizing: border-box;
     .menu-wrapper{
+        height: 400px;
         width: 22%;
         min-height: 400px;
         background-color: rgb(247, 247, 247);
@@ -223,5 +249,10 @@ export default{
     bottom: 0;
     z-index: 800;
     // height: 80px;
+}
+.foodcar{
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
 }
 </style>
