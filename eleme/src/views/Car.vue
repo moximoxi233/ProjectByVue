@@ -39,6 +39,7 @@ export default{
     .discount{
         width: 100%;
         height: 30px;
+        line-height: 30px;
         text-align: center;
         padding: 6px 0;
         font-size: 14px;

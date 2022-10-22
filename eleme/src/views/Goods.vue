@@ -2,19 +2,19 @@
     <!-- 商品列表&详情 -->
     <div class="goods">
         <!-- 菜单栏（左） -->
-        <div class="menu-wrapper" ref="menuWrapper">
+        <div class="menuWrapper" ref="menuWrapper">
             <ul>
                 <li class="" v-for="(item,index) in goods" :key=index>
                     <span class="text">{{item.name}}</span>
                 </li>
-                <li class="menu-item-selected">
+                <!-- <li class="menu-item-selected">
                     <span class="text">超值套餐</span>
-                </li>
+                </li> -->
             </ul>
 
         </div>
         <!-- 菜品列表（右） -->
-        <div class="foods-wrapper" ref="foodsWrapper">
+        <div class="foodsWrapper" ref="foodsWrapper">
             <ul>
                 <li class="food-type" v-for="(item,index) in goods" :key=index>
                     <!-- 菜品类型 -->
@@ -71,7 +71,7 @@ import Carcontrol from './Carcontrol.vue'
 import Car from './Car.vue'
 import Foodcar from './Foodcar.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
-import { reactive, onUnmounted, onUpdated, onMounted, toRefs } from 'vue'; 
+import { reactive, onUnmounted,onUpdated, onMounted, toRefs} from 'vue'; 
 export default{
     name:'Goods',
     components:{
@@ -90,7 +90,11 @@ export default{
             axios.get('./data.json').then(res=>{
                 // console.log(goods.value)
                 goods.value=res.data.goods
-                // console.log(goods.value)
+                nextTick(()=>{
+                    console.log('请求数据',goods.value)
+                    console.log("请求完数据后开始初始化scroll")
+                    initScroll();
+                })
             })
 
         }
@@ -98,14 +102,18 @@ export default{
         let menuWrapper=ref(null)
         let foodsWrapper=ref(null)
         let initScroll=()=>{
-            let scroll=new BScroll(menuWrapper.value,{
-                probeType:2
+            let menu=new BScroll(menuWrapper.value,{
+                scrollY: true,
+                disableTouch:false,
+                disableMouse:false,
+                click:true
             })
-            scroll.on('scroll',pos=>{
-                console.log('scroll',scroll)
-                console.log(pos)
+            let flist=new BScroll(foodsWrapper.value,{
+                click:true,
+                probeType:3,
+                disableTouch:false,
+                disableMouse:false,
             })
-            console.log('scroll',scroll)
 
         }
         // nextTick(()=>{
@@ -113,17 +121,19 @@ export default{
         // })
         onMounted(()=>{
         getData();
-        initScroll();
-        console.log('页面挂载后getData()得到的数据：',goods)
-
         })
+        onUpdated(()=>{
+           
+        })
+       
         return {
             goods,
             listHeight,
             foodsScrollY,
             selectedFood,
             menuWrapper,
-            initScroll
+            foodsWrapper
+            // initScroll
         }
 
         
@@ -135,37 +145,44 @@ export default{
 .goods{
     display: flex;
     box-sizing: border-box;
-    .menu-wrapper{
-        height: 400px;
+    .menuWrapper{
+        // position: absolute;
         width: 22%;
-        min-height: 400px;
+        height: 200px;
+        // min-height: 200px;
         background-color: rgb(247, 247, 247);
         color: rgb(103, 103, 103);
         text-align: center;
-        li{
+        overflow: hidden;
+        ul{
+            // height: 800px;
+            li{
             font-size: 14px;
             line-height: 18px;
             padding-left: 3%;
             padding: 16px 10px;
             background-color: #f2f2f2;
 
-        }
-        li.menu-item-selected+li{
-            border-top-right-radius: 10px;
-        }
-
-        .menu-item-selected{
-            background-color: rgb(247, 247, 247);
-            .text{
-                color: black;
-                font-weight: 600px;
             }
-        }
+            li.menu-item-selected+li{
+                border-top-right-radius: 10px;
+            }
+
+            .menu-item-selected{
+                background-color: rgb(247, 247, 247);
+                .text{
+                    color: black;
+                    font-weight: 600px;
+                }
+            }
+            }
     }
     //右菜单
-    .foods-wrapper{
+    .foodsWrapper{
         width: 80%;
-       padding: 0 3%; 
+        height: 300px;
+        padding: 0 3%; 
+        overflow: hidden;
        .food-type{
         h1{
             font-size: 16px;
