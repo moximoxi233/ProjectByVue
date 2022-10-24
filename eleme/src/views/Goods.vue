@@ -85,6 +85,7 @@ export default{
         let listHeight=ref([]);//列表高度（序列）数组
         let foodsScrollY=ref(0);//
         let selectedFood=ref('')//已选择食物
+        // let foodListHeight=ref([])// 各类型食物列表
         //数据请求 数据来源 public/static/data.json
         let getData=()=>{
             axios.get('./data.json').then(res=>{
@@ -93,7 +94,8 @@ export default{
                 nextTick(()=>{
                     console.log('请求数据',goods.value)
                     console.log("请求完数据后开始初始化scroll")
-                    initScroll();
+                    initScroll()
+                    calculateFlistHeight()
                 })
             })
 
@@ -114,7 +116,27 @@ export default{
                 disableTouch:false,
                 disableMouse:false,
             })
+            // 监听食物列表的滚动事件
+            flist.on('scroll',pos=>{
+                console.log("食物列表位置",pos)
+            })
+            console.log(menu)
 
+        }
+        // 获取每个食物类型的所在的列表高度
+        let calculateFlistHeight=()=>{
+            let foodList=foodsWrapper.value.querySelectorAll('.food-type')
+            let height=0
+            // console.log(listHeight.value)
+            listHeight.value.push(height) // 起始高度（0，0）
+            for(let i=0;i<foodList.length;i++){
+                // 从第1个食物(下标为0～length-1)类型列表开始计算
+                let type=foodList[i]
+                height+=type.clientHeight
+                console.log('获取每个食物类型的所在的列表高度',height)
+                listHeight.value.push(height)
+            }
+            console.log(listHeight.value)
         }
         // nextTick(()=>{
         // console.log(goods,'请求数据')
@@ -132,7 +154,8 @@ export default{
             foodsScrollY,
             selectedFood,
             menuWrapper,
-            foodsWrapper
+            foodsWrapper,
+            // foodListHeight
             // initScroll
         }
 
@@ -148,7 +171,7 @@ export default{
     .menuWrapper{
         // position: absolute;
         width: 22%;
-        height: 200px;
+        height: 300px;
         // min-height: 200px;
         background-color: rgb(247, 247, 247);
         color: rgb(103, 103, 103);
