@@ -4,7 +4,7 @@
         <!-- 菜单栏（左） -->
         <div class="menuWrapper" ref="menuWrapper">
             <ul>
-                <li class="" v-for="(item,index) in goods" :key=index>
+                <li :class="index==menuIndex?'menu-item-selected':''" v-for="(item,index) in goods" :key=index>
                     <span class="text">{{item.name}}</span>
                 </li>
                 <!-- <li class="menu-item-selected">
@@ -71,7 +71,7 @@ import Carcontrol from './Carcontrol.vue'
 import Car from './Car.vue'
 import Foodcar from './Foodcar.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
-import { reactive, onUnmounted,onUpdated, onMounted, toRefs} from 'vue'; 
+import { reactive, onUnmounted,onUpdated, onMounted, toRefs, computed, watch} from 'vue'; 
 export default{
     name:'Goods',
     components:{
@@ -82,18 +82,30 @@ export default{
     setup(){
 
         let goods=ref([]);//菜品数据
-        let listHeight=ref([]);//列表高度（序列）数组
-        let foodsScrollY=ref(0);//
-        let selectedFood=ref('')//已选择食物
-        // let foodListHeight=ref([])// 各类型食物列表
+        let listHeight=ref([]);// 食物列表高度（序列）数组
+        let foodsScrollY=ref(0);// 目前食物列表高度
+        let selectedFood=ref('')// 已选择食物
+        // 计算「食物列表高度」对应的「菜单下标」===》确定菜单高亮项
+        let menuIndex=ref(0)
+        let index=watch(foodsScrollY,()=>{
+            for(let i=0;i<listHeight.value.length;i++){
+                //foodsScrollY 目前食物列表高度
+                    if(foodsScrollY>=listHeight[i]&&foodsScrollY<=listHeight[i+1]){
+                        console.log("此时",listHeight,foodsScrollY)
+                        // console.log("目前食物列表下标",i)
+                        return i
+                    }
+            }
+            return 0
+        })
         //数据请求 数据来源 public/static/data.json
         let getData=()=>{
             axios.get('./data.json').then(res=>{
                 // console.log(goods.value)
                 goods.value=res.data.goods
                 nextTick(()=>{
-                    console.log('请求数据',goods.value)
-                    console.log("请求完数据后开始初始化scroll")
+                    // console.log('请求数据',goods.value)
+                    // console.log("请求完数据后开始初始化scroll")
                     initScroll()
                     calculateFlistHeight()
                 })
@@ -118,9 +130,19 @@ export default{
             })
             // 监听食物列表的滚动事件
             flist.on('scroll',pos=>{
-                console.log("食物列表位置",pos)
+                foodsScrollY=Math.abs(Math.round(pos.y))
+                for(let i=0;i<listHeight.value.length;i++){
+                    //foodsScrollY 目前食物列表高度
+                    if(foodsScrollY>=listHeight.value[i]&&foodsScrollY<=listHeight.value[i+1]){
+                        // console.log("目前食物列表下标",i)
+                        // return i
+                        console.log("此时",listHeight.value[i],foodsScrollY)
+                        menuIndex.value=i
+                    }
+                }
+                console.log("menuIndex",menuIndex.value)
+                
             })
-            console.log(menu)
 
         }
         // 获取每个食物类型的所在的列表高度
@@ -133,14 +155,13 @@ export default{
                 // 从第1个食物(下标为0～length-1)类型列表开始计算
                 let type=foodList[i]
                 height+=type.clientHeight
-                console.log('获取每个食物类型的所在的列表高度',height)
+                // console.log('获取每个食物类型的所在的列表高度',height)
                 listHeight.value.push(height)
             }
-            console.log(listHeight.value)
+            // console.log(listHeight.value)
         }
-        // nextTick(()=>{
-        // console.log(goods,'请求数据')
-        // })
+        // 计算菜单的下标
+
         onMounted(()=>{
         getData();
         })
@@ -155,6 +176,8 @@ export default{
             selectedFood,
             menuWrapper,
             foodsWrapper,
+            menuIndex,
+            index
             // foodListHeight
             // initScroll
         }
@@ -187,12 +210,12 @@ export default{
             background-color: #f2f2f2;
 
             }
-            li.menu-item-selected+li{
-                border-top-right-radius: 10px;
-            }
+            // li.menu-item-selected+li{
+            //     border-top-right-radius: 10px;
+            // }
 
             .menu-item-selected{
-                background-color: rgb(247, 247, 247);
+                background-color: rgb(255, 255, 255);
                 .text{
                     color: black;
                     font-weight: 600px;
