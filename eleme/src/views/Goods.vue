@@ -4,7 +4,7 @@
         <!-- 菜单栏（左） -->
         <div class="menuWrapper" ref="menuWrapper">
             <ul>
-                <li :class="index==menuIndex?'menu-item-selected':''" v-for="(item,index) in goods" :key=index>
+                <li :class="index==menuIndex?'menu-item-selected':''" v-for="(item,index) in goods" :key=index @click="menuClick(index,$event)">
                     <span class="text">{{item.name}}</span>
                 </li>
                 <!-- <li class="menu-item-selected">
@@ -91,7 +91,7 @@ export default{
             for(let i=0;i<listHeight.value.length;i++){
                 //foodsScrollY 目前食物列表高度
                     if(foodsScrollY>=listHeight[i]&&foodsScrollY<=listHeight[i+1]){
-                        console.log("此时",listHeight,foodsScrollY)
+                        // console.log("此时",listHeight,foodsScrollY)
                         // console.log("目前食物列表下标",i)
                         return i
                     }
@@ -115,19 +115,19 @@ export default{
         // 初始化菜单栏/商品列表滚动
         let menuWrapper=ref(null)
         let foodsWrapper=ref(null)
-        let initScroll=()=>{
-            let menu=new BScroll(menuWrapper.value,{
+        let menu=new BScroll(menuWrapper.value,{
                 scrollY: true,
                 disableTouch:false,
                 disableMouse:false,
                 click:true
             })
-            let flist=new BScroll(foodsWrapper.value,{
-                click:true,
-                probeType:3,
-                disableTouch:false,
-                disableMouse:false,
+        let flist=new BScroll(foodsWrapper.value,{
+            click:true,
+            probeType:3,
+            disableTouch:false,
+            disableMouse:false,
             })
+        let initScroll=()=>{
             // 监听食物列表的滚动事件
             flist.on('scroll',pos=>{
                 foodsScrollY=Math.abs(Math.round(pos.y))
@@ -144,6 +144,12 @@ export default{
                 
             })
 
+        }
+        // 点击菜单栏 获取食物列表新定位,参数：index（菜单下标）、e（事件捕捉对象）
+        let menuClick=(index,e)=>{
+            console.log("下标｜事件",index,e)
+            console.log(flist)
+            flist.scrollTo(0,-listHeight[index])
         }
         // 获取每个食物类型的所在的列表高度
         let calculateFlistHeight=()=>{
@@ -177,7 +183,9 @@ export default{
             menuWrapper,
             foodsWrapper,
             menuIndex,
-            index
+            index,
+            menuClick,
+            flist
             // foodListHeight
             // initScroll
         }
