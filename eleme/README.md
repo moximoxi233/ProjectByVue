@@ -87,5 +87,13 @@ beter-scroll:解决各种滚动场景需求的插件
 `npm install better-scroll --save`
 引入
 `import BScroll from 'better-scroll'`
+##### 状态管理工具vuex
+安装
+`npm install vuex`
+在项目中scr文件夹下创建store->index.js，便于项目管理
+index.js中
+
+
+将 食物&菜单评论等数据请求通过store进行集中管理
 
 

@@ -46,7 +46,7 @@
                                     </div>
                                                                      <!-- 购物车管理 -->
                                     <div class="cartcontrol-wrapper">
-                                        <Carcontrol />
+                                        <Carcontrol :food="item_foods" />
                                     </div>
                                  </div>
 
@@ -98,6 +98,18 @@ export default{
             }
             return 0
         })
+        // 计算点餐情况
+        selectedFood=()=>{
+            let foods=[]
+            goods.value.forEach(good=>{
+                good.foods.forEach(food=>{
+                    if(food.count){
+                        foods.push(food)
+                    }
+                })
+            })
+            return foods
+        }
         //数据请求 数据来源 public/static/data.json
         let getData=()=>{
             axios.get('./data.json').then(res=>{
@@ -115,19 +127,32 @@ export default{
         // 初始化菜单栏/商品列表滚动
         let menuWrapper=ref(null)
         let foodsWrapper=ref(null)
-        let menu=new BScroll(menuWrapper.value,{
+        // let menu=new BScroll(menuWrapper.value,{
+        //         scrollY: true,
+        //         disableTouch:false,
+        //         disableMouse:false,
+        //         click:true
+        //     })
+        // let flist=new BScroll(foodsWrapper.value,{
+        //     click:true,
+        //     probeType:3,
+        //     disableTouch:false,
+        //     disableMouse:false,
+        //     })
+        let flist
+        let initScroll=()=>{
+            let menu=new BScroll(menuWrapper.value,{
                 scrollY: true,
                 disableTouch:false,
                 disableMouse:false,
                 click:true
             })
-        let flist=new BScroll(foodsWrapper.value,{
-            click:true,
-            probeType:3,
-            disableTouch:false,
-            disableMouse:false,
-            })
-        let initScroll=()=>{
+            flist=new BScroll(foodsWrapper.value,{
+                click:true,
+                probeType:3,
+                disableTouch:false,
+                disableMouse:false,
+                })
             // 监听食物列表的滚动事件
             flist.on('scroll',pos=>{
                 foodsScrollY=Math.abs(Math.round(pos.y))
@@ -136,20 +161,20 @@ export default{
                     if(foodsScrollY>=listHeight.value[i]&&foodsScrollY<=listHeight.value[i+1]){
                         // console.log("目前食物列表下标",i)
                         // return i
-                        console.log("此时",listHeight.value[i],foodsScrollY)
+                        // console.log("此时",listHeight.value[i],foodsScrollY)
                         menuIndex.value=i
                     }
                 }
-                console.log("menuIndex",menuIndex.value)
+                // console.log("menuIndex",menuIndex.value)
                 
             })
 
         }
         // 点击菜单栏 获取食物列表新定位,参数：index（菜单下标）、e（事件捕捉对象）
         let menuClick=(index,e)=>{
-            console.log("下标｜事件",index,e)
-            console.log(flist)
-            flist.scrollTo(0,-listHeight[index])
+            // console.log()
+            // console.log(index,)
+            flist.scrollTo(0,-listHeight.value[index],.2)
         }
         // 获取每个食物类型的所在的列表高度
         let calculateFlistHeight=()=>{
