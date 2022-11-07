@@ -72,6 +72,7 @@ import Car from './Car.vue'
 import Foodcar from './Foodcar.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
 import { reactive, onUnmounted,onUpdated, onMounted, toRefs, computed, watch} from 'vue'; 
+import {mapActions, useStore} from 'vuex'
 export default{
     name:'Goods',
     components:{
@@ -81,12 +82,15 @@ export default{
     },
     setup(){
 
-        let goods=ref([]);//菜品数据
+        // let goods=ref([]);//菜品数据
         let listHeight=ref([]);// 食物列表高度（序列）数组
         let foodsScrollY=ref(0);// 目前食物列表高度
         let selectedFood=ref('')// 已选择食物
         // 计算「食物列表高度」对应的「菜单下标」===》确定菜单高亮项
         let menuIndex=ref(0)
+        let store=useStore()
+        let goods=computed(()=>store.state.goods)
+
         let index=watch(foodsScrollY,()=>{
             for(let i=0;i<listHeight.value.length;i++){
                 //foodsScrollY 目前食物列表高度
@@ -99,30 +103,29 @@ export default{
             return 0
         })
         // 计算点餐情况
-        selectedFood=()=>{
-            let foods=[]
-            goods.value.forEach(good=>{
-                good.foods.forEach(food=>{
-                    if(food.count){
-                        foods.push(food)
-                    }
-                })
-            })
-            return foods
-        }
+        // selectedFood=()=>{
+        //     let foods=[]
+        //     goods.value.forEach(good=>{
+        //         good.foods.forEach(food=>{
+        //             if(food.count){
+        //                 foods.push(food)
+        //             }
+        //         })
+        //     })
+        //     return foods
+        // }
         //数据请求 数据来源 public/static/data.json
         let getData=()=>{
             axios.get('./data.json').then(res=>{
-                // console.log(goods.value)
-                goods.value=res.data.goods
+                // goods.value=res.data.goods
+                store.commit('getGoods',res.data.goods)
                 nextTick(()=>{
-                    // console.log('请求数据',goods.value)
-                    // console.log("请求完数据后开始初始化scroll")
                     initScroll()
                     calculateFlistHeight()
                 })
-            })
-
+            }
+            )
+            
         }
         // 初始化菜单栏/商品列表滚动
         let menuWrapper=ref(null)
@@ -194,6 +197,7 @@ export default{
         // 计算菜单的下标
 
         onMounted(()=>{
+            console.log('挂载了')
         getData();
         })
         onUpdated(()=>{
