@@ -4,9 +4,9 @@
     <!-- 添加购物车 -->
     <div class="carControl">
         <!-- 减 -->
-        <span class="dec circleDec" @click="decreaseCart">-</span>
+        <span class="dec circleDec" @click="decreaseCart" v-show="count">-</span>
         <!-- 加购数量 -->
-        <span class="count">{{count}}</span>
+        <span class="count" v-show="count">{{count}}</span>
         <!-- 加 -->
         <span class="add circleAdd" @click="addCar">+</span>
     </div>

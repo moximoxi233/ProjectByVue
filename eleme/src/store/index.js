@@ -7,6 +7,8 @@ export default createStore({
         goods:[],
         // 已选择的菜
         selectedFoods:[],
+        // 是否展示点餐详情
+        showOrder:false,
     },
     actions:{
         //菜品数据请求，数据请求成功后
@@ -58,6 +60,10 @@ export default createStore({
             count-=1
             Reflect.set(food,'count',count)
         },
+        // 切换点餐详情
+        toggleShowOrder(state,flag){
+            state.showOrder=flag
+        }
 
     },
 

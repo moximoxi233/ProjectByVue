@@ -1,12 +1,10 @@
 <template>
 <div class="carshop">
-    <p class="discount">满x元减x元，还差x元 去凑单</p>
     <div class="carBox">
         <!-- 点餐详情 -->
         <div class="order">
-            <div class="carLogo">
+            <div class="carLogo" @click="show">
                 <el-icon><ElemeFilled style="color:rgba(2,182,253,1)"/></el-icon>
-                <!-- <i class="logo el-icon-platform-eleme"></i> -->
             </div>
             <div class="orderDetail">
                 <p class="price">
@@ -26,9 +24,21 @@
 </div>
 </template>
 <script>
+import {mapActions, mapMutations, useStore} from 'vuex'
+
 export default{
     name:'Car',
+    
     setup(){
+        let store=useStore();
+        // ...mapMutations(['toggleShowOrder']);
+        let show=()=>{
+            let flag=!store.state.showOrder
+            store.commit('toggleShowOrder',flag);
+        }
+        return {
+            show,
+        }
 
     }
 }
