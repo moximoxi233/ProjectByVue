@@ -1,5 +1,6 @@
 # eleme 饿了么商家页面仿写
 ### 创建项目并初次启动（vue3）
+https://h5.ele.me 移动端
 1、`vue create eleme`(创建项目前会让你选择是创建vue2项目还是vue3项目，选择vue3项目)
 2、`cd eleme`
 3、`npm run serve`
@@ -74,12 +75,15 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 [vue-router路由](https://blog.csdn.net/sinat_17775997/article/details/80688397)
 **安装**
 `npm install vue-router`
-**使用**
+**引入**
 main.js中引入
 ```js
 import router from'./router'
 app.use(router)
 ```
+页面中使用
+[vue3中路由传参](https://blog.csdn.net/m0_69502730/article/details/126513513)
+[query和params传参的区别](https://blog.csdn.net/weixin_57550930/article/details/120341698)
 ##### beter-scroll
 beter-scroll:解决各种滚动场景需求的插件
 [better-scoll 详解](https://blog.csdn.net/wzg0817/article/details/108013765)
@@ -95,5 +99,9 @@ index.js中
 
 
 将 食物&菜单评论等数据请求通过store进行集中管理
+#### 项目编写中遇到的问题和思考
+1. 点击某个食物跳转到指定食物详情
+- 利用router-link标签实现路由跳转
+- 利用点击事件来控制食物详情的显示。。。
 
 

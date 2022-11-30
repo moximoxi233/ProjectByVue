@@ -1,4 +1,7 @@
 <template>
+    <Header msg="粥品香坊"/>
+    <Tab/>
+
     <!-- 商品列表&详情 -->
     <div class="goods">
         <!-- 菜单栏（左） -->
@@ -16,18 +19,19 @@
         <!-- 菜品列表（右） -->
         <div class="foodsWrapper" ref="foodsWrapper">
             <ul>
-                <li class="food-type" v-for="(item,index) in goods" :key=index>
+                <li class="food-type" v-for="(item,index) in goods" :key=index >
                     <!-- 菜品类型 -->
                     <h1>{{item.name}}</h1>
                     <!-- 菜品列表 -->
                     <ul>
-                        <li class="food-item" v-for="(item_foods,x) in goods[index].foods" :key=x>
+                        <li class="food-item" v-for="(item_foods,x) in goods[index].foods" :key=x @click="goDetail(item_foods)">
                             <!-- 食物照片 -->
                             <div class="food_img">
                                 <img :src="item_foods.image" alt="">
                             </div>
                             <!-- 食物内容 -->
-                            <div class="food_content">
+                            <!-- <router-link to=/detail> -->
+                                <div class="food_content">
                                 <h2 class="food_name">{{item_foods.name}}</h2>
                                 <p class="description" v-show="true">{{item_foods.description}}</p>
                                 <div class="sell_info">
@@ -51,6 +55,7 @@
                                  </div>
 
                             </div>
+                            <!-- </router-link> -->
                         </li>
                     </ul>
                 </li>
@@ -58,10 +63,13 @@
         </div>
         
     </div>
+    <!-- 产品详情 -->
+    <Detail v-if="detail" class="detail" :food="clickFood"/>
     <!-- 购物车 组件 -->
     <Car class="car"/>
     <!-- 购物车详情 组件 -->
     <Foodcar class="foodcar"/>
+    
 </template>
 <script>
 import BScroll from 'better-scroll'
@@ -70,6 +78,9 @@ import axios from 'axios'
 import Carcontrol from './Carcontrol.vue'
 import Car from './Car.vue'
 import Foodcar from './Foodcar.vue'
+import Header from '../components/Header'
+import Tab from '../components/Tab'
+import Detail from '../views/Detail.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
 import { reactive, onUnmounted,onUpdated, onMounted, toRefs, computed, watch} from 'vue'; 
 import {mapActions, useStore} from 'vuex'
@@ -78,14 +89,18 @@ export default{
     components:{
     Carcontrol,
     Car,
-    Foodcar
+    Foodcar,
+    Header,
+    Tab,
+    Detail
     },
     setup(){
 
         // let goods=ref([]);//菜品数据
         let listHeight=ref([]);// 食物列表高度（序列）数组
         let foodsScrollY=ref(0);// 目前食物列表高度
-        let selectedFood=ref('')// 已选择食物
+        let clickFood=ref('')
+        let detail=ref(false)
         // 计算「食物列表高度」对应的「菜单下标」===》确定菜单高亮项
         let menuIndex=ref(0)
         let store=useStore()
@@ -126,6 +141,13 @@ export default{
             }
             )
             
+        }
+        let goDetail=(good)=>{
+            store.commit('toggleClickFood',good)
+            clickFood.value=store.state.clickFood
+            detail.value=true
+            // console.log(Boolean(clickFood.value),detail)
+            // console.log(clickFood.value)
         }
         // 初始化菜单栏/商品列表滚动
         let menuWrapper=ref(null)
@@ -197,24 +219,26 @@ export default{
         // 计算菜单的下标
 
         onMounted(()=>{
-            console.log('挂载了')
-        getData();
+            getData();
         })
         onUpdated(()=>{
-           
+        //    console.log(store.state.goods)
         })
        
         return {
             goods,
             listHeight,
             foodsScrollY,
-            selectedFood,
+            // selectedFood,
             menuWrapper,
             foodsWrapper,
             menuIndex,
             index,
             menuClick,
-            flist
+            flist,
+            goDetail,
+            detail,
+            clickFood
             // foodListHeight
             // initScroll
         }
@@ -231,7 +255,7 @@ export default{
     .menuWrapper{
         // position: absolute;
         width: 22%;
-        height: 300px;
+        height: 340px;
         // min-height: 200px;
         background-color: rgb(247, 247, 247);
         color: rgb(103, 103, 103);
@@ -263,7 +287,7 @@ export default{
     //右菜单
     .foodsWrapper{
         width: 80%;
-        height: 300px;
+        height: 340px;
         padding: 0 3%; 
         overflow: hidden;
        .food-type{
@@ -354,5 +378,14 @@ export default{
     position: fixed;
     bottom: 0;
     z-index: 500;
+}
+.detail{
+    position:absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height: 800px;
+    background-color: antiquewhite;
 }
 </style>

@@ -9,15 +9,17 @@ export default createStore({
         selectedFoods:[],
         // 是否展示点餐详情
         showOrder:false,
+        // 已选择食物
+        clickFood:{},
     },
     actions:{
         //菜品数据请求，数据请求成功后
         
         
         // 计算点餐情况
-        selectedFood({commit,state},goods){
+        selectedFood({commit,state}){
             let foods=[]
-            goods.forEach(good=>{
+            state.goods.forEach(good=>{
                 good.foods.forEach(food=>{
                     if(food.count){
                         foods.push(food)
@@ -25,6 +27,19 @@ export default createStore({
                 })
             })
             commit('updateSelected',foods)
+        },
+        // 清除点餐
+        clearFood({commit,state}){
+            state.goods.forEach(good=>{
+                good.foods.forEach(food=>{
+                    if(food.count){
+                        food.count=0
+                    }
+                })
+            })
+            commit('getGoods',state.goods)
+            commit('updateSelected',[])
+
         }
     },
 
@@ -37,6 +52,7 @@ export default createStore({
         // 更新点餐情况
         updateSelected(state,newOrders){
             state.selectedFoods=newOrders
+            // console.log(state.selectedFoods)
         },
         // 增加食物
         addFood(state,food){
@@ -48,7 +64,7 @@ export default createStore({
             count+=1
             Reflect.set(food,'count',count)
             // food.count(++1)
-            console.log(food)
+            // console.log(food)
         },
         // 减少食物
         decreaseGood(state,food){
@@ -60,9 +76,12 @@ export default createStore({
             count-=1
             Reflect.set(food,'count',count)
         },
-        // 切换点餐详情
+        // 切换 是否展示点餐详情
         toggleShowOrder(state,flag){
             state.showOrder=flag
+        },
+        toggleClickFood(state,data){
+            state.clickFood=data
         }
 
     },

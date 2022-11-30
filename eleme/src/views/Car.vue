@@ -8,11 +8,11 @@
             </div>
             <div class="orderDetail">
                 <p class="price">
-                    <span class="new">33</span>&nbsp;
-                    <span class="old">44</span>
+                    <span class="new">{{total}}</span>&nbsp;
+                    <span class="old">{{total+10}}</span>
                 </p>
                 <p class="sum">
-                    <span class="amount">预估券后￥27</span>&nbsp;
+                    <span class="amount">预估券后￥{{total+2.5}}</span>&nbsp;
                     <span class="send">配送费￥2.5</span>
                 </p>
             </div>
@@ -24,6 +24,7 @@
 </div>
 </template>
 <script>
+import { computed, onMounted, ref, watch } from '@vue/runtime-core';
 import {mapActions, mapMutations, useStore} from 'vuex'
 
 export default{
@@ -31,13 +32,27 @@ export default{
     
     setup(){
         let store=useStore();
+        let total=ref(0)
+        
         // ...mapMutations(['toggleShowOrder']);
         let show=()=>{
             let flag=!store.state.showOrder
             store.commit('toggleShowOrder',flag);
         }
+        watch(()=>{
+            let selected=store.state.selectedFoods
+            total.value=0
+            if(selected.length){
+                selected.forEach(food=>{
+                    total.value+=food.price*food.count
+                })
+            }
+        })
+        onMounted(()=>{
+        })
         return {
             show,
+            total
         }
 
     }

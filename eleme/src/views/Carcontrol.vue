@@ -26,8 +26,10 @@ export default{
               // 获取store对象
         let store=useStore()
         let count=ref(0);
+        count.value=props.food.count
         watch(()=>{
-          count.value=props.food.count? props.food.count:0
+            // count.value=store.state.selectedFoods.length&&props.food.count
+            count.value=props.food.count
         })
         // 添加食物到购物车
         let addCar=()=>{
@@ -35,15 +37,15 @@ export default{
             //     //为该 food 设置一个新字段==count
             // }
             store.commit('addFood',props.food);
+            store.dispatch('selectedFood')
+            // console.loxg(store.state.selectedFoods)
         }
         // 减少食物到购物车
         let decreaseCart=()=>{
             store.commit('decreaseGood',props.food);
+            store.dispatch('selectedFood')
         }
-        onMounted(()=>{
-            // console.log("hhhh")
-            // console.log('store',store)
-        })
+        
         return {
         addCar,
         count,

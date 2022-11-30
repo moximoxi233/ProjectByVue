@@ -1,18 +1,7 @@
 <template>
 <div class="bg">
-  <Header msg="粥品香坊"/>
-  <div class="tab">
-    <div class="tab-item">
-      <i></i>
-      <router-link to="/goods">商品<i></i></router-link>
-    </div>
-    <div class="tab-item">
-      <router-link to="/ratings">评分<i></i></router-link>
-    </div>
-    <div class="tab-item">
-      <router-link to="/seller">品牌<i></i></router-link>
-    </div>
-  </div>
+  <!-- <router-view :seller="seller"></router-view> -->
+
   <keep-alive>
     <router-view :seller="seller"></router-view>
   </keep-alive>
@@ -23,11 +12,11 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import Header from './components/Header'
+// import Header from './components/Header'
 export default {
   name: 'App',
   components: {
-    Header
+    // Header
   }
 }
 </script>
@@ -43,41 +32,12 @@ ul,li{
 }
 a{
   text-decoration: none;
+  color: #333;
 }
 .bg{
   height: 100vh;
   background-color: rgb(255 255 255);
-  .tab{
-    display: flex;
-    width: 94%;
-    margin: 2px auto;
-    .tab-item{
-      font-size: 18px;
-      margin-right: 30px;
-      display: flex;
-      flex-direction: column;
-      a{
-        display: flex;
-        flex-direction: column;
-      color: #111;
-      i{
-          width: 20px;
-          height: 4px;
-          margin: 0 auto;
-          display: inline-block;
-      }
-      }
-      .active{
-        font-weight: 600;
-
-        i{
-          background-color: rgb(146, 50, 50);
-        }
-      }
-      
-
-    }
-  }
+ 
 }
 
 </style>
