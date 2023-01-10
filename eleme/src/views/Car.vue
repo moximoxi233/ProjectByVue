@@ -36,8 +36,12 @@ export default{
         
         // ...mapMutations(['toggleShowOrder']);
         let show=()=>{
+            if(store.state.selectedFoods==false){
+                alert("购物车为空！请先选购食物")
+            }
             let flag=!store.state.showOrder
             store.commit('toggleShowOrder',flag);
+            
         }
         watch(()=>{
             let selected=store.state.selectedFoods

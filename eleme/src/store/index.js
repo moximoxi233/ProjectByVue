@@ -9,6 +9,8 @@ export default createStore({
         selectedFoods:[],
         // 是否展示点餐详情
         showOrder:false,
+        // 是否展示产品详情
+        showDetail:false,
         // 已选择食物
         clickFood:{},
     },
@@ -82,6 +84,10 @@ export default createStore({
         },
         toggleClickFood(state,data){
             state.clickFood=data
+        },
+        // 是否展示产品详情
+        toggleFoodDetail(state,flag){
+            state.showDetail=flag
         }
 
     },

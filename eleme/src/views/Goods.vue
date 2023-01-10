@@ -24,15 +24,15 @@
                     <h1>{{item.name}}</h1>
                     <!-- 菜品列表 -->
                     <ul>
-                        <li class="food-item" v-for="(item_foods,x) in goods[index].foods" :key=x @click="goDetail(item_foods)">
+                        <li class="food-item" v-for="(item_foods,x) in goods[index].foods" :key="x">
                             <!-- 食物照片 -->
                             <div class="food_img">
-                                <img :src="item_foods.image" alt="">
+                                <img :src="item_foods.image" alt="" @click="goDetail(item_foods)">
                             </div>
                             <!-- 食物内容 -->
                             <!-- <router-link to=/detail> -->
                                 <div class="food_content">
-                                <h2 class="food_name">{{item_foods.name}}</h2>
+                                <h2 class="food_name" @click="goDetail(item_foods)">{{item_foods.name}}</h2>
                                 <p class="description" v-show="true">{{item_foods.description}}</p>
                                 <div class="sell_info">
                                     <span class="sellCount">月销量&nbsp;{{item_foods.sellCount}}&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -83,7 +83,7 @@ import Tab from '../components/Tab'
 import Detail from '../views/Detail.vue'
 //✅图标：在入口文件已配置｜购物车｜购物车控制｜食物详情
 import { reactive, onUnmounted,onUpdated, onMounted, toRefs, computed, watch} from 'vue'; 
-import {mapActions, useStore} from 'vuex'
+import {mapActions, mapState, useStore} from 'vuex'
 export default{
     name:'Goods',
     components:{
@@ -95,15 +95,15 @@ export default{
     Detail
     },
     setup(){
-
+        // let deatil=mapState['showDetail']
         // let goods=ref([]);//菜品数据
+        let store=useStore()
         let listHeight=ref([]);// 食物列表高度（序列）数组
         let foodsScrollY=ref(0);// 目前食物列表高度
         let clickFood=ref('')
-        let detail=ref(false)
+        let detail=computed(()=>store.state.showDetail)
         // 计算「食物列表高度」对应的「菜单下标」===》确定菜单高亮项
         let menuIndex=ref(0)
-        let store=useStore()
         let goods=computed(()=>store.state.goods)
 
         let index=watch(foodsScrollY,()=>{
@@ -117,6 +117,7 @@ export default{
             }
             return 0
         })
+
         // 计算点餐情况
         // selectedFood=()=>{
         //     let foods=[]
@@ -145,7 +146,7 @@ export default{
         let goDetail=(good)=>{
             store.commit('toggleClickFood',good)
             clickFood.value=store.state.clickFood
-            detail.value=true
+            store.commit('toggleFoodDetail',true)
             // console.log(Boolean(clickFood.value),detail)
             // console.log(clickFood.value)
         }
@@ -385,7 +386,7 @@ export default{
     top: 0;
     z-index: 100;
     width: 100%;
-    height: 800px;
-    background-color: antiquewhite;
+    // height: 800px;
+    // background-color: antiquewhite;
 }
 </style>
