@@ -31,12 +31,16 @@
             <div class="ratings_detail" v-for="(item,index) in food.ratings" :key='index'>
                 <div class="user">
                     <div class="users_head">
-                        <img src="item.image" alt="">
+                        <img :src="item.avatar" alt="">
                     </div>
                     <div class="user_info">
                         <div class="users_name">{{item.username}}</div>
                         <div class="pub_time">{{item.rateTime}}</div>
                     </div>
+                    
+                </div>
+                <div class="ratings_text">
+                        {{ item.text }}
                 </div>
                 <p>{{item.text==''? "用户赞了该商品":''}}</p>
             </div>
@@ -135,7 +139,7 @@ export default{
         box-sizing: border-box;
         p{
             font-size: 20px;
-            font-weight: 400;
+            font-weight: 600;
         }
         .sell_count{
             color: #666;
@@ -215,6 +219,29 @@ export default{
                             color: rgb(71, 175, 250);
                             font-size: 14px;
                             display: inline-block;
+                    }
+                }
+            }
+            .ratings_detail{
+                margin: 16px 0;
+                .user{
+                    display: flex;
+                    font-size: 16px;
+                    
+                    .users_head{
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 25px;
+                        margin: 0 10px 10px 0;
+                        overflow: hidden;
+                        background-color: aquamarine;
+                    }
+                    .users_name{
+                        font-weight: 500;
+                    }
+                    .pub_time{
+                        color: #666;
+                        font-size: 13px;
                     }
                 }
             }
